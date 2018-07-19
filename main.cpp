@@ -10,6 +10,8 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
 
+    // successful
+
     VideoCapture capture(0);
     // 循环显示每一帧
     while(1){
