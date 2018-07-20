@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "send_client.h"
 #include <QApplication>
 #include <opencv2/opencv.hpp>
 
@@ -9,6 +10,8 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     MainWindow w;
     w.show();
+    Send_Client c;
+    c.show();
 
     // successful
 
