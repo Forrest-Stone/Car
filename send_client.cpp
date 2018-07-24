@@ -1,6 +1,7 @@
 #include "send_client.h"
 #include "ui_send_client.h"
-#include <QFileDialog>
+#include "send_filedialog.h"
+#include "send_controller.h"
 #include <QString>
 #include <QStringList>
 #include <QDebug>
@@ -20,19 +21,7 @@ Send_Client::~Send_Client()
 
 void Send_Client::on_choose_picture_pushButton_clicked()
 {
-    //QList<QUrl> files=QFileDialog::getOpenFileUrls(this,"choose","E:","*");
-    QFileDialog dialog;
-    dialog.setWindowTitle("选择要上传的图片");
-    dialog.setDirectory("E:");
-    dialog.setNameFilter("Images(*.png *.jpg *.jpeg *.bmp)");
-    dialog.setFileMode(QFileDialog::ExistingFiles);
-    dialog.setViewMode(QFileDialog::Detail);
-
-    QStringList files;
-    if(dialog.exec()){
-        files=dialog.selectedFiles();
-    }
-    qDebug()<<files;
+    qDebug()<<Send_Choose_Pictures();
 }
 
 
@@ -55,4 +44,16 @@ void Send_Client::on_login_out_pushButton_clicked()
 void Send_Client::on_send_picture_pushButton_clicked()
 {
     //发送图片
+    controller.Send_Pictures();
 }
+
+QStringList Send_Client::Send_Choose_Pictures()
+{
+    Send_FileDialog dialog;
+    QStringList pictures;
+    if(dialog.exec()){
+        pictures=dialog.selectedFiles();
+    }
+    return pictures;
+}
+

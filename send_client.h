@@ -2,6 +2,8 @@
 #define SEND_CLIENT_H
 
 #include <QWidget>
+#include "send_controller.h"
+
 
 namespace Ui {
 class Send_Client;
@@ -28,6 +30,9 @@ private slots:
 
 private:
     Ui::Send_Client *ui;
+    Send_Controller controller;
+    //选择图片
+    QStringList Send_Choose_Pictures();
 };
 
 #endif // SEND_CLIENT_H

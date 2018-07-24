@@ -28,13 +28,15 @@ SOURCES += \
     send_client.cpp \
     mainwindow.cpp \
     send_controller.cpp \
-    send_model.cpp
+    send_filedialog.cpp \
+    send_list_item.cpp
 
 HEADERS += \
     send_client.h \
     mainwindow.h \
     send_controller.h \
-    send_model.h
+    send_filedialog.h \
+    send_list_item.h
 
 FORMS += \
     send_client.ui \
