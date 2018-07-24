@@ -34,3 +34,25 @@ void Send_Client::on_choose_picture_pushButton_clicked()
     }
     qDebug()<<files;
 }
+
+
+void Send_Client::on_delete_pushButton_clicked()
+{
+    //取消发送图片
+
+}
+
+void Send_Client::on_reset_pushButton_clicked()
+{
+    //清空
+}
+
+void Send_Client::on_login_out_pushButton_clicked()
+{
+    //登出
+}
+
+void Send_Client::on_send_picture_pushButton_clicked()
+{
+    //发送图片
+}

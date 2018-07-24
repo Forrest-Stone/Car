@@ -18,6 +18,14 @@ public:
 private slots:
     void on_choose_picture_pushButton_clicked();
 
+    void on_delete_pushButton_clicked();
+
+    void on_reset_pushButton_clicked();
+
+    void on_login_out_pushButton_clicked();
+
+    void on_send_picture_pushButton_clicked();
+
 private:
     Ui::Send_Client *ui;
 };

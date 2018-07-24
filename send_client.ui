@@ -39,7 +39,7 @@
     <string>选择图片</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="login_out_pushButton">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -102,7 +102,7 @@
     </property>
    </item>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="QPushButton" name="delete_pushButton">
    <property name="geometry">
     <rect>
      <x>320</x>
@@ -112,10 +112,10 @@
     </rect>
    </property>
    <property name="text">
-    <string>取消发送</string>
+    <string>删除</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_3">
+  <widget class="QPushButton" name="reset_pushButton">
    <property name="geometry">
     <rect>
      <x>320</x>
@@ -132,7 +132,7 @@
  <resources/>
  <connections>
   <connection>
-   <sender>pushButton</sender>
+   <sender>login_out_pushButton</sender>
    <signal>clicked()</signal>
    <receiver>Send_Client</receiver>
    <slot>close()</slot>
