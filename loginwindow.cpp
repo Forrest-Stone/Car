@@ -1,17 +1,17 @@
+﻿#include "loginwindow.h"
+#include "ui_loginwindow.h"
+#include <QDebug>
 #include <QString>
 #include <QMessageBox>
-#include "loginwindow.h"
 
-#define IP ""               // IP��ַ
-#define PORT 8000           // �˿ں�
+#define IP ""       // IP地址
+#define PORT 8800   // 端口地址
 
 LoginWindow::LoginWindow(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::LoginWindow)
 {
     ui->setupUi(this);
-    init();
-    connectToServer();
 }
 
 LoginWindow::~LoginWindow()
@@ -19,16 +19,15 @@ LoginWindow::~LoginWindow()
     delete ui;
 }
 
-// ��ʼ��
+// 初始化
 void LoginWindow::init()
 {
-    ui->lineEdit_pass->setEchoMode(QLineEdit::Password);
     socket = new QTcpSocket(this);
     connect(socket, SIGNAL(error(QAbstractSocket::SocketError)),
             this, SLOT(displayError(QAbstractSocket::SocketError)));
 }
 
-// ���ӵ�������
+// 连接到服务器
 void LoginWindow::connectToServer()
 {
     socket->abort();
@@ -36,33 +35,27 @@ void LoginWindow::connectToServer()
     connect(socket, SIGNAL(readyRead()), this, SLOT(readMsg()));
 }
 
-// ��¼��ť�ۺ���
+// 登录按钮槽函数
 void LoginWindow::on_pushButton_login_clicked()
 {
-    QString userName = ui->comboBox_acc->currentText();
+    QString name = ui->comboBox_acc->currentText();
     QString passwd = ui->lineEdit_pass->text();
-    if ("" == userName || "" == passwd) {
-        QMessageBox::information(this, tr("����"), tr("���벻��Ϊ�գ�"), QMessageBox::Ok);
+    if ("" == name || "" == passwd) {
+        QMessageBox::information(this, "错误", "用户名和密码不能为空", QMessageBox::Ok);
         return;
     }
-    QString data = userName + '#' + passwd;
+    QString data = name + '#' + passwd;
     socket->write(data.toLatin1());
 }
 
-// ��ʾ����
+// 显示错误
 void LoginWindow::displayError(QAbstractSocket::SocketError)
 {
     qDebug() << socket->errorString();
 }
 
-// ��ȡ��Ϣ
+// 读取返回数据
 void LoginWindow::readMsg()
 {
     QString data = socket->readAll();
-    if ("" == data) {
-        // ��֤ͨ��
-    } else {
-        // ��֤ʧ��
-        QMessageBox::information(this, "����", "�û����������������", QMessageBox::Ok);
-    }
 }
