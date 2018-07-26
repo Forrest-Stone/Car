@@ -2,20 +2,23 @@
 #define SEND_CONTROLLER_H
 
 #include <QStringList>
+#include <QTcpSocket>
+#include "send_list_item.h"
+
+class Send_Client;
 
 class Send_Controller
 {
+    friend class Send_Client;
 public:
     Send_Controller();
     //更改图片样式
-    void Send_Set_Item_Model();
+    //static void Send_Set_Item_Model(int type);
     //发送选中的图片
-    bool Send_Pictures();
-    //获取要发送的图片
-    Send_get_Pictures(QStringList &);
+    //static bool Send_Pictures(const QStringList &);
+    //生成item
+    static Send_List_Item* Send_Create_Item(const QString &);
 private:
-    QStringList pictures;
-
 };
 
 #endif // SEND_CONTROLLER_H

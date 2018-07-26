@@ -1,23 +1,33 @@
 #include "mainwindow.h"
+#include "send_client.h"
+//#include "send_test_server.h"
 #include <QApplication>
 #include <opencv2/opencv.hpp>
+
+#include <QNetworkInterface>
 
 using namespace cv;
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
-    VideoCapture capture(0);
-           //【2】循环显示每一帧
-           while(1){
-               Mat frame;  //定义一个Mat变量，用于存储每一帧的图像
-               capture>>frame;  //读取当前帧
-               imshow("video",frame);  //显示当前帧
-               waitKey(30);  //延时30ms
-           }
+    //Send_test_Server server;
+    Send_Client c;
+    c.show();
 
 
+    /*QString ipAddress;
+        QList<QHostAddress> ipAddressesList = QNetworkInterface::allAddresses();
+        for (int i = 0; i < ipAddressesList.size(); ++i)
+        {
+            if (ipAddressesList.at(i) != QHostAddress::LocalHost &&  ipAddressesList.at(i).toIPv4Address())
+            {
+                ipAddress = ipAddressesList.at(i).toString();
+                break;
+            }
+        }
+        if (ipAddress.isEmpty())
+            ipAddress = QHostAddress(QHostAddress::LocalHost).toString();
+        qDebug()<<ipAddress;*/
     return a.exec();
 }

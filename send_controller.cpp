@@ -1,23 +1,18 @@
 #include "send_controller.h"
 #include "send_filedialog.h"
 
+
 Send_Controller::Send_Controller()
 {
-
+    //socket=new QTcpSocket(Send_Client);
 }
 
-void Send_Controller::Send_Set_Item_Model()
+
+Send_List_Item* Send_Controller::Send_Create_Item(const QString &picture)
 {
-
-}
-
-bool Send_Controller::Send_Pictures()
-{
-    return true;
+    QIcon icon(picture);
+    Send_List_Item * item=new Send_List_Item(icon,picture);
+    return item;
 }
 
 
-QStringList Send_Controller::Send_get_Pictures()
-{
-    return pictures;
-}

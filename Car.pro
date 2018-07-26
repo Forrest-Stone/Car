@@ -29,18 +29,21 @@ SOURCES += \
     mainwindow.cpp \
     send_controller.cpp \
     send_filedialog.cpp \
-    send_list_item.cpp
+    send_list_item.cpp \
+    send_socket.cpp
 
 HEADERS += \
     send_client.h \
     mainwindow.h \
     send_controller.h \
     send_filedialog.h \
-    send_list_item.h
+    send_list_item.h \
+    send_socket.h
 
 FORMS += \
     send_client.ui \
     mainwindow.ui
+QT +=network
 
 INCLUDEPATH += F:\msvc_build\opencv\build\include
 
