@@ -45,6 +45,6 @@ FORMS += \
     mainwindow.ui
 QT +=network
 
-INCLUDEPATH += F:\msvc_build\opencv\build\include
+#INCLUDEPATH += F:\msvc_build\opencv\build\include
 
-LIBS += F:\msvc_build\opencv\build\x64\vc15\lib\*.lib
+#LIBS += F:\msvc_build\opencv\build\x64\vc15\lib\*.lib

@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QTcpSocket>
 #include <QString>
+#include <QQueue>
 
 class Send_Socket : public QWidget
 {
@@ -19,8 +20,11 @@ private slots:
     void Send_Connect_Success();
     void Send_Connect_Error(QAbstractSocket::SocketError);
     void Send_Connect_Dis();
+    void Send_Write_Complete();
 private:
     QTcpSocket *socket;
+    QQueue<QString> pictures;
+
 };
 
 #endif // SEND_SOCKET_H

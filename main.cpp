@@ -2,11 +2,11 @@
 #include "send_client.h"
 //#include "send_test_server.h"
 #include <QApplication>
-#include <opencv2/opencv.hpp>
+//#include <opencv2/opencv.hpp>
 
 #include <QNetworkInterface>
 
-using namespace cv;
+//using namespace cv;
 
 int main(int argc, char *argv[])
 {

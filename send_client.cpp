@@ -32,6 +32,8 @@ void Send_Client::on_choose_picture_pushButton_clicked()
             ui->listWidget->addItem(Send_Controller::Send_Create_Item(picture));
         }
     }
+    QString number=QString::number(pictures.count())+" pictures";
+    ui->number_label->setText(number);
 }
 
 
@@ -39,41 +41,40 @@ void Send_Client::on_delete_pushButton_clicked()
 {
     //取消发送图片
     int Row=ui->listWidget->currentRow();
-    QStringList::iterator iter=pictures.begin();
-    for(int i=0;i<Row;++i){
-        ++iter;
+    if(Row!=-1){
+        QStringList::iterator iter=pictures.begin();
+        for(int i=0;i<Row;++i){
+            ++iter;
+        }
+        pictures.erase(iter);
+        ui->listWidget->takeItem(Row);
     }
-    pictures.erase(iter);
-    ui->listWidget->takeItem(Row);
 }
 
 void Send_Client::on_reset_pushButton_clicked()
 {
     //清空
+    pictures.clear();
+    ui->listWidget->clear();
 }
 
 void Send_Client::on_login_out_pushButton_clicked()
 {
     //登出
     socket->Send_Disconnect();
+    on_reset_pushButton_clicked();
     this->close();
 }
 
 void Send_Client::on_send_picture_pushButton_clicked()
 {
-    //发送图片
-    //Send_Controller::Send_Pictures(pictures);
-    //Send_Controller::Send_Pictures(pictures);
-    //socket->connectToHost("192.168.0.1",8080);
 
-    //socket->Send_Connect("10.25.19.190",8888 );
-    //连接到服务器ip，端口
-    if(ui->state_label!="connected"){
-        socket->Send_Connect("127.0.0.1",8888 );
+    if(ui->state_label->text()=="connected"){
+        //发送图片        
+        socket->Send_Write(pictures);
+
+        on_reset_pushButton_clicked();
     }
-    //发送图片
-    socket->Send_Write(pictures);
-
 }
 
 void Send_Client::connect_state_change(const QString &state)
@@ -90,3 +91,14 @@ bool Send_Client::Send_Choose_Pictures()
     return true;
 }
 
+
+void Send_Client::on_pushButton_clicked()
+{
+    //连接到服务器ip，端口
+    if(ui->net_address_lineEdit->text()!="")
+    {
+        if(ui->state_label->text()!="connected"){
+            socket->Send_Connect(ui->net_address_lineEdit->text(),8675 );
+        }
+    }
+}

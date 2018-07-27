@@ -38,11 +38,15 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="net_address_lineEdit"/>
+      <widget class="QLineEdit" name="net_address_lineEdit">
+       <property name="text">
+        <string>127.0.0.1</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
-   <item row="1" column="1">
+   <item row="2" column="1">
     <widget class="QListWidget" name="listWidget">
      <property name="layoutDirection">
       <enum>Qt::LeftToRight</enum>
@@ -61,7 +65,7 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="2">
+   <item row="2" column="2">
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
       <widget class="QPushButton" name="delete_pushButton">
@@ -77,9 +81,16 @@
        </property>
       </widget>
      </item>
+     <item>
+      <widget class="QPushButton" name="pushButton">
+       <property name="text">
+        <string>连接</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
-   <item row="2" column="0" colspan="2">
+   <item row="3" column="0" colspan="2">
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <widget class="QPushButton" name="login_out_pushButton">
@@ -108,6 +119,16 @@
     <widget class="QLabel" name="state_label">
      <property name="text">
       <string>未连接</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="2">
+    <widget class="QLabel" name="number_label">
+     <property name="text">
+      <string>0张图片</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>

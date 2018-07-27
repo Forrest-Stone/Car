@@ -18,6 +18,8 @@ public:
     //static bool Send_Pictures(const QStringList &);
     //生成item
     static Send_List_Item* Send_Create_Item(const QString &);
+    //编码图片
+    static QByteArray Send_Image_to_Base64(const QString&);
 private:
 };
 
