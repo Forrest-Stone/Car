@@ -1,18 +1,20 @@
-#include "mainwindow.h"
+﻿#include "mainwindow.h"
+#include "send_client.h"
+//#include "send_test_server.h"
 #include <QApplication>
-#include <opencv2/opencv.hpp>
 #include "loginwindow.h"
+#include <QNetworkInterface>
 
-using namespace cv;
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    //MainWindow w;
-    //w.show();
 
     LoginWindow login;
     login.show();
+
+    Send_Client c;
+    // c.show();
 
     return a.exec();
 }

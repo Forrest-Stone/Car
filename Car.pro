@@ -29,24 +29,32 @@ SOURCES += \
     loginwindow.cpp \
     vertificationlabel.cpp \
     useritemwidget.cpp \
-    loginsetdialog.cpp
+    loginsetdialog.cpp \
+    send_client.cpp \
+    send_controller.cpp \
+    send_filedialog.cpp \
+    send_list_item.cpp \
+    send_socket.cpp
 
 HEADERS += \
     mainwindow.h \
     loginwindow.h \
     vertificationlabel.h \
     useritemwidget.h \
-    loginsetdialog.h
+    loginsetdialog.h \
+    send_client.h \
+    send_controller.h \
+    send_filedialog.h \
+    send_list_item.h \
+    send_socket.h
 
 FORMS += \
     mainwindow.ui \
     loginwindow.ui \
     useritemwidget.ui \
-    loginsetdialog.ui
+    loginsetdialog.ui \
+    send_client.ui \
+    mainwindow.ui
 
 QT += network
 QT += xml
-
-INCLUDEPATH += D:\OpenCV\opencv\build\include
-
-LIBS += D:\OpenCV\opencv\build\x64\vc15\lib\*.lib
