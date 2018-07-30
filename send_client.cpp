@@ -98,7 +98,7 @@ void Send_Client::on_pushButton_clicked()
     if(ui->net_address_lineEdit->text()!="")
     {
         if(ui->state_label->text()!="connected"){
-            socket->Send_Connect(ui->net_address_lineEdit->text(),8675 );
+            socket->Send_Connect(ui->net_address_lineEdit->text(),ui->net_port_lineEdit->text().toInt());
         }
     }
 }
