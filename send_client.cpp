@@ -63,6 +63,7 @@ void Send_Client::on_login_out_pushButton_clicked()
     //登出
     socket->Send_Disconnect();
     on_reset_pushButton_clicked();
+    emit Send_login_out();
     this->close();
 }
 
@@ -101,4 +102,10 @@ void Send_Client::on_pushButton_clicked()
             socket->Send_Connect(ui->net_address_lineEdit->text(),ui->net_port_lineEdit->text().toInt());
         }
     }
+}
+
+void Send_Client::Login_in(const QString& ip,const int port)
+{
+    ui->net_address_lineEdit->setText(ip);
+    ui->net_port_lineEdit->setText(QString::number(port));
 }
