@@ -12,9 +12,9 @@
 #include <QTextStream>
 #include <QListWidget>
 #include <QtXml>
-
-#define IP "10.25.16.120"       // IP地址
-#define PORT 7777               // 端口地址
+#include <QImage>
+#include <QPainter>
+#include "loginsetdialog.h"
 
 LoginWindow::LoginWindow(QWidget *parent) :
     QWidget(parent),
@@ -22,19 +22,23 @@ LoginWindow::LoginWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     init();
-    // connectToServer();
 }
 
 LoginWindow::~LoginWindow()
 {
+    socket->close();
     delete ui;
 }
 
 // 初始化
 void LoginWindow::init()
 {
+    ip = "localhost";
+    port = 7777;
     socket = new QTcpSocket(this);
+    loginSet = new LoginSetDialog(this);
 
+    setWindowTitle(QStringLiteral("登录"));
     ui->comboBox_acc->lineEdit()->setPlaceholderText(QStringLiteral("用户名"));
     ui->lineEdit_pass->setPlaceholderText(QStringLiteral("密码"));
     ui->lineEdit_vertify->setPlaceholderText(QStringLiteral("验证码"));
@@ -56,18 +60,29 @@ void LoginWindow::init()
 
     // 添加验证码控件
     verLabel = new VertificationLabel(this);
-    verLabel->setGeometry(220, 185, 70, 20);
+    verLabel->setGeometry(220, 185, 70, 24);
 
+    // 添加背景图片
+    QLabel *label = new QLabel(this);
+    QImage img;
+    img.load("head.png");
+    label->setPixmap(QPixmap::fromImage(img.scaled(400, 100, Qt::KeepAspectRatio)));
+    label->move(0, 0);
+    label->setGeometry(0, 0, 400, 100);
+
+    // 信号与槽的连接
     connect(socket, SIGNAL(error(QAbstractSocket::SocketError)),
             this, SLOT(displayError(QAbstractSocket::SocketError)));
+    connect(socket, SIGNAL(readyRead()), this, SLOT(readMsg()));
+    connect(loginSet, SIGNAL(sendAddr(QString,int)),
+            this, SLOT(on_setAddr(QString,int)));
 }
 
 // 连接到服务器
 void LoginWindow::connectToServer()
 {
     socket->abort();
-    socket->connectToHost(IP, PORT);
-    connect(socket, SIGNAL(readyRead()), this, SLOT(readMsg()));
+    socket->connectToHost(ip, port);
 }
 
 // 登录按钮槽函数
@@ -99,40 +114,58 @@ void LoginWindow::on_pushButton_login_clicked()
     // 加密数据并发送至服务器
     QByteArray cryptPass = QCryptographicHash::hash(passwd.toLocal8Bit(),
                                                     QCryptographicHash::Md5);
-    // qDebug() << cryptPass.toHex().toUpper();
+    qDebug() << cryptPass.toHex().toUpper();
     QByteArray data;
     data.append(name);
     data.append('#');
     data.append(cryptPass);
-    // socket->write(data);
-    // 测试保存用户名功能
-    if (ui->checkBox_rem->isChecked()) {
-        QStringList list = getNames();
-        if (!list.contains(name)) {
-            saveName(name);
-        }
-    }
+    data.append('$');
+
+    connectToServer();
+    socket->waitForConnected();
+    socket->write(data);
 }
 
 // 显示错误
 void LoginWindow::displayError(QAbstractSocket::SocketError)
 {
     qDebug() << socket->errorString();
+    QMessageBox::information(this, QStringLiteral("连接错误"),
+                             socket->errorString(), QMessageBox::Yes);
 }
 
 // 读取返回数据
 void LoginWindow::readMsg()
 {
     QString data = socket->readAll();
-    // 由返回数据判断登录是否成功
-    if (false) {
-        QMessageBox::information(this, "提示", "用户名或密码不正确", QMessageBox::Yes);
+    qDebug() << "返回值：" << data;
+
+    // 登录失败
+    if ("1" == data) {
+        QMessageBox::information(this, QStringLiteral("提示"),
+                                 QStringLiteral("用户名不存在"), QMessageBox::Yes);
         return;
     }
-    if (ui->checkBox_rem->isChecked()) {
-        saveName(ui->comboBox_acc->currentText());
+    if ("2" == data) {
+        QMessageBox::information(this, QStringLiteral("提示"),
+                                 QStringLiteral("密码错误"), QMessageBox::Yes);
+        return;
     }
-    // 跳转至主界面
+
+    // 登录成功
+    if ("0" == data) {
+        qDebug() << QStringLiteral("登录成功！");
+        QMessageBox::information(this, QStringLiteral("提示"),
+                                 QStringLiteral("登录成功"), QMessageBox::Yes);
+        // 保存历史用户名
+        if (ui->checkBox_rem->isChecked()) {
+            QStringList list = getNames();
+            if (!list.contains(ui->comboBox_acc->currentText())) {
+                saveName(ui->comboBox_acc->currentText());
+            }
+        }
+        emit loginOk(ip, port);
+    }
 }
 
 // 保存用户名
@@ -234,7 +267,7 @@ void LoginWindow::delName(const QString &name)
 }
 
 // 显示选中的用户名槽函数
-void LoginWindow::onShowName(int index, QString name)
+void LoginWindow::onShowName(int /*index*/, QString name)
 {
     ui->comboBox_acc->setEditText(name);
     ui->comboBox_acc->hidePopup();
@@ -246,4 +279,17 @@ void LoginWindow::onRemoveName(int index, QString name)
     delName(name);
     ui->comboBox_acc->removeItem(index);
     ui->comboBox_acc->hidePopup();
+}
+
+// 设置连接地址
+void LoginWindow::on_setAddr(QString ip, int port)
+{
+    this->ip = ip;
+    this->port = port;
+}
+
+// 设置按钮槽函数
+void LoginWindow::on_pushButton_set_clicked()
+{
+    loginSet->show();
 }

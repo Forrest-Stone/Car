@@ -9,6 +9,7 @@ class QString;
 class QStringList;
 class UserItemWidget;
 class QListWidget;
+class LoginSetDialog;
 
 namespace Ui {
 class LoginWindow;
@@ -24,10 +25,13 @@ public:
 
 protected:
     void init();
-    void connectToServer();         //连接到服务器
+    void connectToServer();                        //连接到服务器
     void saveName(const QString &name);             // 保存用户名
     QStringList getNames();                         // 获取历史用户名
     void delName(const QString &name);              // 删除已保存的历史用户名
+
+signals:
+    void loginOk(QString ip, int port);             // 登录成功信号
 
 private slots:
     void displayError(QAbstractSocket::SocketError);
@@ -35,12 +39,17 @@ private slots:
     void onShowName(int index, QString name);
     void onRemoveName(int index, QString name);
     void on_pushButton_login_clicked();
+    void on_setAddr(QString ip, int port);
+    void on_pushButton_set_clicked();
 
 private:
     Ui::LoginWindow *ui;
     VertificationLabel *verLabel;
     QTcpSocket *socket;
     QListWidget *name_list;
+    LoginSetDialog *loginSet;
+    QString ip;
+    int port;
 };
 
 #endif // LOGINWINDOW_H

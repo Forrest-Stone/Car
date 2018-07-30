@@ -11,6 +11,7 @@ UserItemWidget::UserItemWidget(QWidget *parent) :
     m_label_name = new QLabel(this);
     m_toolBtn_del = new QToolButton(this);
     m_toolBtn_del->setText("X");
+    m_toolBtn_del->setStyleSheet("background-color: transparent");
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->addWidget(m_label_name);
