@@ -17,6 +17,8 @@ class Send_Client : public QWidget
 public:
     explicit Send_Client(QWidget *parent = 0);
     ~Send_Client();
+signals:
+    void Send_login_out();
 
 private slots:
     void on_choose_picture_pushButton_clicked();
@@ -32,6 +34,8 @@ private slots:
     void connect_state_change(const QString&);
 
     void on_pushButton_clicked();
+
+    void Login_in(const QString&, const int);
 
 private:
     Ui::Send_Client *ui;
