@@ -30,6 +30,7 @@ private slots:
     void on_send_picture_pushButton_clicked();
 
     void connect_state_change(const QString&);
+
     void on_pushButton_clicked();
 
 private:

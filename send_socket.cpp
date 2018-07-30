@@ -11,7 +11,7 @@ Send_Socket::Send_Socket(QWidget *parent) :
     connect(socket,SIGNAL(connected()),this,SLOT(Send_Connect_Success()));
     connect(socket,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(Send_Connect_Error(QAbstractSocket::SocketError)));
     connect(socket,SIGNAL(disconnected()),this,SLOT(Send_Connect_Dis()));
-    connect(socket,SIGNAL(bytesWritten(qint64)),this,SLOT(Send_Write_Complete()));
+    //connect(socket,SIGNAL(bytesWritten(qint64)),this,SLOT(Send_Write_Complete()));
 }
 
 bool Send_Socket::Send_Connect(const QString &hostName, quint16 port)
@@ -59,13 +59,37 @@ void Send_Socket::Send_Connect_Dis()
 
 void Send_Socket::Send_Write_Complete()
 {
-    //QMessageBox::warning(this,"complete",QString::number(byte),QMessageBox::Yes);
-    qDebug()<<pictures.count();
-    if(!pictures.isEmpty()){
-        QByteArray img = Send_Controller::Send_Image_to_Base64(
-                    pictures.dequeue());
-        socket->write(img);
+    QString picture;
+    while(!pictures.isEmpty()){
+        picture=pictures.dequeue();
+        for(int i=1;i<5;++i){
+            if(!Send_Write_Process(picture,i)){
+                qDebug()<<i<<picture;
+                return;
+            }
+        }
     }
+}
+
+bool Send_Socket::Send_Write_Process(const QString &path,const int option)
+{
+    QList<QByteArray> list;
+    qint64 size;
+    list.append(Send_Controller::Send_Picture_to_Base64(path,option));
+    for(QList<QByteArray>::iterator iter=list.begin();iter!=list.end();++iter){
+        size = iter->size();
+        socket->write((char *)&size, sizeof(qint64));
+        socket->write(iter->data(), size);
+        if(socket->waitForBytesWritten(-1)) {
+            qDebug()<<socket->errorString();
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+
+
 }
 
 

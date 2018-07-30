@@ -20,11 +20,12 @@ private slots:
     void Send_Connect_Success();
     void Send_Connect_Error(QAbstractSocket::SocketError);
     void Send_Connect_Dis();
-    void Send_Write_Complete();
+
 private:
     QTcpSocket *socket;
     QQueue<QString> pictures;
-
+    void Send_Write_Complete();
+    bool Send_Write_Process(const QString&,const int);
 };
 
 #endif // SEND_SOCKET_H
