@@ -25,26 +25,36 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-    send_client.cpp \
     mainwindow.cpp \
+    loginwindow.cpp \
+    vertificationlabel.cpp \
+    useritemwidget.cpp \
+    loginsetdialog.cpp \
+    send_client.cpp \
     send_controller.cpp \
     send_filedialog.cpp \
     send_list_item.cpp \
     send_socket.cpp
 
 HEADERS += \
-    send_client.h \
     mainwindow.h \
+    loginwindow.h \
+    vertificationlabel.h \
+    useritemwidget.h \
+    loginsetdialog.h \
+    send_client.h \
     send_controller.h \
     send_filedialog.h \
     send_list_item.h \
     send_socket.h
 
 FORMS += \
+    mainwindow.ui \
+    loginwindow.ui \
+    useritemwidget.ui \
+    loginsetdialog.ui \
     send_client.ui \
     mainwindow.ui
-QT +=network
 
-#INCLUDEPATH += F:\msvc_build\opencv\build\include
-
-#LIBS += F:\msvc_build\opencv\build\x64\vc15\lib\*.lib
+QT += network
+QT += xml
