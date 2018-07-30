@@ -58,3 +58,6 @@ FORMS += \
 
 QT += network
 QT += xml
+
+RESOURCES += \
+    res.qrc

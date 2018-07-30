@@ -30,6 +30,9 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <widget class="QComboBox" name="comboBox_acc">
    <property name="geometry">
     <rect>
@@ -133,7 +136,7 @@ border: 1px solid rgb(209 , 209 , 209);</string>
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true"/>
+    <string notr="true">color: rgb(101, 101, 101);</string>
    </property>
    <property name="text">
     <string>记住账号</string>
@@ -166,6 +169,27 @@ background-color:transparent;</string>
    </property>
    <property name="text">
     <string>设置</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="checkBox_show_pass">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>160</y>
+     <width>71</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(101, 101, 101);</string>
+   </property>
+   <property name="text">
+    <string>显示密码</string>
    </property>
   </widget>
  </widget>

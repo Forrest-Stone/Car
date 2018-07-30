@@ -22,10 +22,11 @@ class LoginWindow : public QWidget
 public:
     explicit LoginWindow(QWidget *parent = 0);
     ~LoginWindow();
+    void loginOut();                                // 登出
 
 protected:
     void init();
-    void connectToServer();                        //连接到服务器
+    void connectToServer();                         //连接到服务器
     void saveName(const QString &name);             // 保存用户名
     QStringList getNames();                         // 获取历史用户名
     void delName(const QString &name);              // 删除已保存的历史用户名
@@ -41,6 +42,8 @@ private slots:
     void on_pushButton_login_clicked();
     void on_setAddr(QString ip, int port);
     void on_pushButton_set_clicked();
+
+    void on_checkBox_show_pass_stateChanged(int arg1);
 
 private:
     Ui::LoginWindow *ui;
