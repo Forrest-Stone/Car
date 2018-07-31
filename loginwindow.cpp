@@ -55,6 +55,7 @@ void LoginWindow::init()
     ui->lineEdit_pass->setPlaceholderText(QL("密码"));
     ui->lineEdit_vertify->setPlaceholderText(QL("验证码"));
     ui->lineEdit_pass->setEchoMode(QLineEdit::Password);
+    ui->label->hide();
 
     // 设置combobox
     name_list = new QListWidget(this);
@@ -87,6 +88,7 @@ void LoginWindow::init()
     connect(socket, SIGNAL(error(QAbstractSocket::SocketError)),
             this, SLOT(displayError(QAbstractSocket::SocketError)));
     connect(socket, SIGNAL(readyRead()), this, SLOT(readMsg()));
+    connect(socket, SIGNAL(connected()), this, SLOT(sendMsg()));
     connect(loginSet, SIGNAL(sendAddr(QString,int)),
             this, SLOT(on_setAddr(QString,int)));
 }
@@ -104,6 +106,7 @@ void LoginWindow::on_pushButton_login_clicked()
     QString name = ui->comboBox_acc->currentText();
     QString passwd = ui->lineEdit_pass->text();
     QString vertify = ui->lineEdit_vertify->text();
+    QString verCode = verLabel->getVerCode();
 
     // 判断是否有未填项
     if ("" == name) {
@@ -118,23 +121,35 @@ void LoginWindow::on_pushButton_login_clicked()
     }
 
     // 检查验证码是否正确
-    if (vertify != verLabel->getVerCode()) {
+    if (vertify != verCode.toUpper() && vertify != verCode.toLower()) {
         SHOW(QL("提示"), QL("验证码错误"));
         return;
     }
 
-    // 加密数据并发送至服务器
-    QByteArray cryptPass = QCryptographicHash::hash(passwd.toLocal8Bit(),
-                                                    QCryptographicHash::Md5);
-    qDebug() << cryptPass.toHex().toUpper();
-    QByteArray data;
-    data.append(name);
-    data.append('#');
-    data.append(cryptPass);
-    data.append('$');
-
+    // 连接至服务器
+    flag = LOGIN;
     connectToServer();
-    socket->waitForConnected();
+    ui->label->show();
+}
+
+// 发送数据
+void LoginWindow::sendMsg()
+{
+    QByteArray data;
+    // 发送登录数据
+    if (LOGIN == flag) {
+        QString name = ui->comboBox_acc->currentText();
+        QString passwd = ui->lineEdit_pass->text();
+        QByteArray cryptPass = QCryptographicHash::
+                hash(passwd.toLocal8Bit(), QCryptographicHash::Md5);
+        data.append(name);
+        data.append('#');
+        data.append(cryptPass);
+        data.append('$');
+    } else if (LOGOUT == flag) {
+        // 发送登出数据
+        data.append('!');
+    }
     socket->write(data);
 }
 
@@ -142,6 +157,7 @@ void LoginWindow::on_pushButton_login_clicked()
 void LoginWindow::displayError(QAbstractSocket::SocketError)
 {
     qDebug() << socket->errorString();
+    ui->label->hide();
     SHOW(QL("连接错误"), socket->errorString());
 }
 
@@ -150,6 +166,7 @@ void LoginWindow::readMsg()
 {
     QString data = socket->readAll();
     qDebug() << QL("返回值：") << data;
+    ui->label->hide();
 
     // 登录失败
     if ("1" == data) {
@@ -305,10 +322,8 @@ void LoginWindow::on_pushButton_set_clicked()
 // 登出
 void LoginWindow::loginOut()
 {
+    flag = LOGOUT;
     connectToServer();
-    socket->waitForConnected();
-    socket->write("!");
-    socket->close();
 }
 
 // 显示密码
@@ -320,3 +335,4 @@ void LoginWindow::on_checkBox_show_pass_stateChanged(int state)
         ui->lineEdit_pass->setEchoMode(QLineEdit::Password);
     }
 }
+
