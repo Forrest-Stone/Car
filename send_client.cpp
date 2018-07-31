@@ -109,4 +109,5 @@ void Send_Client::Login_in(const QString& ip,const int port)
     show();
     ui->net_address_lineEdit->setText(ip);
     ui->net_port_lineEdit->setText(QString::number(port));
+    socket->Send_Connect(ui->net_address_lineEdit->text(),ui->net_port_lineEdit->text().toInt());
 }
