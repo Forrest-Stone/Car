@@ -1,6 +1,8 @@
 #include "send_controller.h"
 #include "send_filedialog.h"
 #include <QBuffer>
+#include <QHostAddress>
+#include <QNetworkInterface>
 
 Send_Controller::Send_Controller()
 {
@@ -26,7 +28,7 @@ QByteArray Send_Controller::Send_Name_to_Base64(const QString &path)
     out.device()->seek(0);
 
     int count=path.split('/').count()-1;
-    out << 0x01 << path.section('/',count,count);
+    out << 0x01 << path.section('/',count,count).toUtf8();
 
     return block;
 }
@@ -45,7 +47,7 @@ QByteArray Send_Controller::Send_Size_to_Base64(const QString &path)
 
     block.clear();
     out.device()->seek(0);
-    out << 0x02 << QString::number(file.size());
+    out << 0x02 << QString::number(file.size()).toUtf8();
 
     file.close();
     return block;
@@ -85,7 +87,7 @@ QByteArray Send_Controller::Send_End_to_Base64(const QString &path)
     block.clear();
     out.device()->seek(0);
     int count=path.split('/').count()-1;
-    out << 0x04 << path.section('/',count,count);
+    out << 0x04 << path.section('/',count,count).toUtf8();
 
     return block;
 }
@@ -111,6 +113,23 @@ QList<QByteArray> Send_Controller::Send_Picture_to_Base64(const QString &path, c
         break;
     }
     return block;
+}
+
+QString Send_Controller::Send_Get_IP()
+{
+    QString ipAddress;
+    QList<QHostAddress> ipAddressesList = QNetworkInterface::allAddresses();
+    for (int i = 0; i < ipAddressesList.size(); ++i)
+    {
+        if (ipAddressesList.at(i) != QHostAddress::LocalHost &&  ipAddressesList.at(i).toIPv4Address())
+        {
+            ipAddress = ipAddressesList.at(i).toString();
+            break;
+        }
+     }
+     if (ipAddress.isEmpty())
+        ipAddress = QHostAddress(QHostAddress::LocalHost).toString();
+     return ipAddress;
 }
 
 

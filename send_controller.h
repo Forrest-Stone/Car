@@ -20,6 +20,8 @@ public:
     static Send_List_Item* Send_Create_Item(const QString &);
     //创建一条数据
     static QList<QByteArray> Send_Picture_to_Base64(const QString&,const int);
+    //获取本机ip地址
+    static QString Send_Get_IP();
 private:
     //编码文件名
     static QByteArray Send_Name_to_Base64(const QString&);
