@@ -16,7 +16,7 @@ Send_Client::Send_Client(QWidget *parent) :
     ui->setupUi(this);
     ui->listWidget->setIconSize(QSize(200,200));
     socket=new Send_Socket(this);
-    ui->local_address_lineEdit->setText(QHostAddress(QHostAddress::LocalHost).toString());
+    ui->local_address_lineEdit->setText(Send_Controller::Send_Get_IP());
     connect(socket,SIGNAL(Send_state(QString)),this,SLOT(connect_state_change(QString)));
 }
 
