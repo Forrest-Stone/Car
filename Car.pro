@@ -34,7 +34,8 @@ SOURCES += \
     send_controller.cpp \
     send_filedialog.cpp \
     send_list_item.cpp \
-    send_socket.cpp
+    send_socket.cpp \
+    loginsocketmanage.cpp
 
 HEADERS += \
     mainwindow.h \
@@ -46,7 +47,8 @@ HEADERS += \
     send_controller.h \
     send_filedialog.h \
     send_list_item.h \
-    send_socket.h
+    send_socket.h \
+    loginsocketmanage.h
 
 FORMS += \
     mainwindow.ui \

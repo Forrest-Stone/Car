@@ -11,6 +11,7 @@ VertificationLabel::VertificationLabel(QWidget *parent) :
     verCodeArray = new QChar[letter_num];
     colorArray = new QColor[letter_num];
     noise_num = this->width();
+    isChangeCode = true;
     connect(this, SIGNAL(click()), this, SLOT(onClick()));
 }
 
@@ -21,14 +22,16 @@ VertificationLabel::~VertificationLabel()
 }
 
 // 重写绘制函数
-void VertificationLabel::paintEvent(QPaintEvent *event)
+void VertificationLabel::paintEvent(QPaintEvent */*event*/)
 {
-    //qDebug() << event->type();
     QPainter painter(this);
     QPoint point;
     painter.fillRect(this->rect(), Qt::white);
-    produceVer();
-    produceColor();
+    if (isChangeCode) {
+        produceVer();
+        produceColor();
+        qDebug() << QStringLiteral("验证码：") << getVerCode();
+    }
     // 绘制验证码
     for (int i = 0; i < letter_num; ++i) {
         point.setX(i * (this->width() / letter_num) + this->width() / 8);
@@ -43,7 +46,7 @@ void VertificationLabel::paintEvent(QPaintEvent *event)
         painter.setPen(colorArray[i % letter_num]);
         painter.drawPoint(point);
     }
-    qDebug() << QStringLiteral("验证码：") << getVerCode();
+    isChangeCode = false;
 }
 
 // 重写点击事件
@@ -95,5 +98,6 @@ QString VertificationLabel::getVerCode() const
 // 点击槽函数
 void VertificationLabel::onClick()
 {
+    isChangeCode = true;
     repaint();
 }
