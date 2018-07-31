@@ -192,6 +192,22 @@ background-color:transparent;</string>
     <string>显示密码</string>
    </property>
   </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>240</y>
+     <width>71</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(101, 101, 101);</string>
+   </property>
+   <property name="text">
+    <string>正在连接...</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

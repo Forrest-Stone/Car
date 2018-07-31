@@ -43,6 +43,7 @@ void VertificationLabel::paintEvent(QPaintEvent *event)
         painter.setPen(colorArray[i % letter_num]);
         painter.drawPoint(point);
     }
+    qDebug() << QStringLiteral("验证码：") << getVerCode();
 }
 
 // 重写点击事件
