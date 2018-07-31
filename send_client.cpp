@@ -73,7 +73,7 @@ void Send_Client::on_send_picture_pushButton_clicked()
     if(ui->state_label->text()=="connected"){
         //发送图片        
         socket->Send_Write(pictures);
-
+        qDebug()<<"client success";
         on_reset_pushButton_clicked();
     }
 }
@@ -106,6 +106,8 @@ void Send_Client::on_pushButton_clicked()
 
 void Send_Client::Login_in(const QString& ip,const int port)
 {
+    show();
     ui->net_address_lineEdit->setText(ip);
     ui->net_port_lineEdit->setText(QString::number(port));
+    socket->Send_Connect(ui->net_address_lineEdit->text(),ui->net_port_lineEdit->text().toInt());
 }

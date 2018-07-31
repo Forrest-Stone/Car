@@ -2,6 +2,7 @@
 #include "send_controller.h"
 #include <QDebug>
 #include <QMessageBox>
+#include <QHostAddress>
 
 
 Send_Socket::Send_Socket(QWidget *parent) :
@@ -27,6 +28,7 @@ bool Send_Socket::Send_Write(QStringList &pictures)
         this->pictures.push_back(picture);
     }
     Send_Write_Complete();
+    qDebug()<<"write";
     return true;
 }
 
@@ -40,6 +42,8 @@ bool Send_Socket::Send_Disconnect()
 
 void Send_Socket::Send_Connect_Success()
 {
+    qDebug()<<socket->peerAddress().toString();
+    qDebug()<<socket->peerPort();
     QMessageBox::warning(this,"success","seccess",QMessageBox::Yes);
     emit Send_state("connected");
 }
@@ -78,18 +82,15 @@ bool Send_Socket::Send_Write_Process(const QString &path,const int option)
     list.append(Send_Controller::Send_Picture_to_Base64(path,option));
     for(QList<QByteArray>::iterator iter=list.begin();iter!=list.end();++iter){
         size = iter->size();
+        qDebug()<<size;
         socket->write((char *)&size, sizeof(qint64));
         socket->write(iter->data(), size);
-        if(socket->waitForBytesWritten(-1)) {
+        if(!socket->waitForBytesWritten(-1)) {
             qDebug()<<socket->errorString();
             return false;
-        }else{
-            return true;
         }
     }
-
-
-
+    return true;
 }
 
 

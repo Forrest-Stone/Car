@@ -40,7 +40,7 @@
      <item>
       <widget class="QLineEdit" name="net_address_lineEdit">
        <property name="text">
-        <string>127.0.0.1</string>
+        <string>10.25.18.24</string>
        </property>
       </widget>
      </item>
