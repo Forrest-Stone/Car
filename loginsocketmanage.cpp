@@ -75,8 +75,10 @@ void LoginSocketManage::sendMsg()
         data.append(m_passwd);
         data.append('$');
         // qDebug() << data;
+        qDebug() << QStringLiteral("登录");
     } else if (LOGOUT == m_flag) {    // 发送登出数据
         data.append('!');
+        qDebug() << QStringLiteral("登出");
     }
     m_socket->write(data);
 }
@@ -111,4 +113,10 @@ QString LoginSocketManage::getIP()
 int LoginSocketManage::getPort()
 {
     return m_port;
+}
+
+// 等待连接成功
+void LoginSocketManage::waitForConn()
+{
+    m_socket->waitForConnected();
 }

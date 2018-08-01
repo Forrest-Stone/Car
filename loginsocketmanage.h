@@ -25,6 +25,7 @@ public:
     void setAddr(QString ip, int port);                     // 设置连接地址
     void setUserInfo(QString username, QByteArray passwd);  // 设置用户信息
     void connectToServer();                                 // 连接至服务器
+    void waitForConn();                                     // 等待连接成功
     void setOperation(Flag flag);                           // 设置操作类型
     void closeSocket();                                     // 关闭Socket
     QString getIP();                                        // 获取IP地址

@@ -122,7 +122,7 @@ void LoginWindow::on_pushButton_login_clicked()
     }
 
     // 检查验证码是否正确
-    if (vertify != verCode.toUpper() && vertify != verCode.toLower()) {
+    if (vertify.toUpper() != verCode.toUpper()) {
         SHOW(QL("提示"), QL("验证码错误"));
         return;
     }
@@ -154,6 +154,8 @@ void LoginWindow::onLoginResult(LoginSocketManage::Result res)
             }
         }
         emit loginOk(m_socketManage->getIP(), m_socketManage->getPort());
+        // close();
+        hide();
         break;
     }
     // 用户名不存在
@@ -300,6 +302,7 @@ void LoginWindow::loginOut()
 {
     m_socketManage->setOperation(LoginSocketManage::LOGOUT);
     m_socketManage->connectToServer();
+    m_socketManage->waitForConn();
 }
 
 // 显示密码
