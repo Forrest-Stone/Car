@@ -94,7 +94,7 @@ bool Send_Client::Send_Choose_Pictures()
 {
     Send_FileDialog dialog;
     if(dialog.exec()){
-        pictures=dialog.selectedFiles();
+        pictures<<dialog.selectedFiles();
     }
     return true;
 }
