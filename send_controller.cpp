@@ -27,8 +27,7 @@ QByteArray Send_Controller::Send_Name_to_Base64(const QString &path)
     block.clear();
     out.device()->seek(0);
 
-    int count=path.split('/').count()-1;
-    out << 0x01 << path.section('/',count,count).toUtf8();
+    out << 0x01 << QDateTime::currentDateTime().toString("yyyyMMddhhmmsszzz.jpg").toUtf8();
 
     return block;
 }
