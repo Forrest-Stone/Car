@@ -14,6 +14,13 @@ Send_Client::Send_Client(QWidget *parent) :
     ui(new Ui::Send_Client)
 {
     ui->setupUi(this);
+
+    // 初始化整体布局
+    QFile file(":/style/default.css");
+    file.open(QFile::ReadOnly);
+    QString styleSheet = tr(file.readAll());
+    this->setStyleSheet(styleSheet);
+
     ui->listWidget->setIconSize(QSize(200,200));
     socket=new Send_Socket(this);
     ui->local_address_lineEdit->setText(Send_Controller::Send_Get_IP());
@@ -71,7 +78,7 @@ void Send_Client::on_send_picture_pushButton_clicked()
 {
 
     if(ui->state_label->text()=="connected"){
-        //发送图片        
+        //发送图片
         socket->Send_Write(pictures);
         qDebug()<<"client success";
         on_reset_pushButton_clicked();
@@ -109,4 +116,13 @@ void Send_Client::Login_in(const QString& ip,const int port)
     show();
     ui->net_address_lineEdit->setText(ip);
     ui->net_port_lineEdit->setText(QString::number(port));
+}
+
+void Send_Client::closeEvent(QCloseEvent *event)
+{
+    //登出
+    socket->Send_Disconnect();
+    on_reset_pushButton_clicked();
+    emit Send_login_out();
+    this->close();
 }

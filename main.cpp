@@ -4,11 +4,14 @@
 #include <QApplication>
 #include "loginwindow.h"
 #include <QNetworkInterface>
-
+#include <QStyleFactory>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+
+    // 设置整体风格
+    QApplication::setStyle(QStyleFactory::create("fusion"));
 
     LoginWindow login;
     login.show();
@@ -16,7 +19,6 @@ int main(int argc, char *argv[])
     Send_Client client;
     QObject::connect(&login,SIGNAL(loginOk(QString,int)),&client,SLOT(Login_in(QString,int)));
     QObject::connect(&client,SIGNAL(Send_login_out()),&login,SLOT(loginOut()));
-    //client.show();
 
     return a.exec();
 }
