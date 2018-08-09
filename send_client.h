@@ -1,4 +1,4 @@
-#ifndef SEND_CLIENT_H
+﻿#ifndef SEND_CLIENT_H
 #define SEND_CLIENT_H
 
 #include <QWidget>
@@ -37,6 +37,7 @@ private slots:
 
     void Login_in(const QString&, const int);
 
+    void closeEvent(QCloseEvent *event);
 private:
     Ui::Send_Client *ui;
     QStringList pictures;
